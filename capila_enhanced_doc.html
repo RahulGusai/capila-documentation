@@ -1,0 +1,2497 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Capila — System Guide (Web · Mobile · Xano)</title>
+    <style>
+      :root {
+        --bg: #0b0e12;
+        --card: #12161c;
+        --muted: #9aa5b1;
+        --text: #e6edf3;
+        --accent: #67e8f9;
+        --accent-2: #a78bfa;
+        --ok: #22c55e;
+        --warn: #f59e0b;
+        --err: #ef4444;
+        --info: #38bdf8;
+        --border: #2a313a;
+        --pill: #1e2937;
+        --link: #7dd3fc;
+        --callout: #0f172a;
+      }
+      html,
+      body {
+        background: var(--bg);
+        color: var(--text);
+        margin: 0;
+        padding: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+          Cantarell, Noto Sans, Helvetica Neue, Arial, 'Apple Color Emoji',
+          'Segoe UI Emoji';
+        line-height: 1.45;
+      }
+      a {
+        color: var(--link);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      header.site {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(6px);
+        background: linear-gradient(
+          to bottom,
+          rgba(11, 14, 18, 0.9),
+          rgba(11, 14, 18, 0.6) 70%,
+          transparent
+        );
+        border-bottom: 1px solid var(--border);
+      }
+      header.site .inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 14px 24px;
+      }
+      .title {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .title h1 {
+        font-size: 22px;
+        margin: 0;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0.2rem 0.5rem;
+        border-radius: 999px;
+        background: var(--pill);
+        border: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .badge .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: var(--accent);
+      }
+      .grid {
+        display: grid;
+        gap: 16px;
+      }
+      @media (min-width: 960px) {
+        .grid.cols-2 {
+          grid-template-columns: 1fr 1fr;
+        }
+        .grid.cols-3 {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 18px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+      }
+      h2 {
+        font-size: 20px;
+        margin: 10px 0 6px;
+      }
+      h3 {
+        font-size: 18px;
+        margin: 18px 0 8px;
+      }
+      h4 {
+        font-size: 16px;
+        margin: 16px 0 6px;
+      }
+      p {
+        margin: 6px 0 10px;
+      }
+      ul {
+        padding-left: 18px;
+        margin: 6px 0 10px;
+      }
+      .toc {
+        position: sticky;
+        top: 74px;
+      }
+      nav.toc a {
+        display: block;
+        padding: 8px 10px;
+        border-radius: 8px;
+        color: var(--muted);
+        border: 1px solid transparent;
+      }
+      nav.toc a:hover {
+        border-color: var(--border);
+        color: var(--text);
+        background: rgba(103, 232, 249, 0.06);
+      }
+      section[id] {
+        scroll-margin-top: 84px;
+      }
+      .pill {
+        display: inline-block;
+        padding: 0.18rem 0.5rem;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--pill);
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .kpi {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .kpi .k {
+        background: var(--callout);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .kpi .v {
+        font-weight: 700;
+        color: var(--accent);
+      }
+      .callout {
+        border: 1px solid var(--border);
+        border-left-width: 6px;
+        border-radius: 10px;
+        padding: 12px 12px 12px 12px;
+        background: var(--callout);
+        margin: 12px 0;
+      }
+      .callout.danger {
+        border-left-color: var(--err);
+      }
+      .callout.warn {
+        border-left-color: var(--warn);
+      }
+      .callout.info {
+        border-left-color: var(--info);
+      }
+      .callout.ok {
+        border-left-color: var(--ok);
+      }
+      .callout .label {
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas,
+          'Liberation Mono', monospace;
+      }
+      details {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.02);
+        padding: 8px 10px;
+        margin: 8px 0;
+      }
+      details[open] {
+        background: rgba(255, 255, 255, 0.04);
+      }
+      summary {
+        cursor: pointer;
+        list-style: none;
+      }
+      summary::-webkit-details-marker {
+        display: none;
+      }
+      .summary-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .summary-row .chev {
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        border-right: 2px solid var(--muted);
+        border-bottom: 2px solid var(--muted);
+        transform: rotate(-45deg);
+        margin-right: 6px;
+      }
+      details[open] .summary-row .chev {
+        transform: rotate(45deg);
+      }
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .kv {
+        display: grid;
+        grid-template-columns: 160px 1fr;
+        gap: 8px;
+        margin: 8px 0;
+      }
+      .kv .k {
+        color: var(--muted);
+      }
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .table th,
+      .table td {
+        border-bottom: 1px solid var(--border);
+        padding: 8px 6px;
+        vertical-align: top;
+      }
+      .table th {
+        color: var(--muted);
+        font-weight: 600;
+        text-align: left;
+      }
+      .right {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+      button.small {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text);
+        border-radius: 8px;
+        padding: 6px 10px;
+        cursor: pointer;
+      }
+      button.small:hover {
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .svg-wrap {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 8px;
+        overflow: auto;
+      }
+      .legend {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+      .legend .item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--muted);
+      }
+      .legend .sw {
+        width: 12px;
+        height: 12px;
+        border-radius: 3px;
+        display: inline-block;
+      }
+      .sw-clients {
+        background: #0ea5e9;
+      }
+      .sw-xano {
+        background: #22c55e;
+      }
+      .sw-db {
+        background: #f59e0b;
+      }
+      .sw-int {
+        background: #a78bfa;
+      }
+      .tag {
+        background: rgba(167, 139, 250, 0.15);
+        border: 1px solid var(--border);
+        color: #d8b4fe;
+        padding: 0.15rem 0.45rem;
+        border-radius: 6px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site" role="banner">
+      <div class="inner">
+        <div class="title">
+          <span class="badge"
+            ><span class="dot"></span> Capila System Guide</span
+          >
+          <h1>Web (Bubble) · Mobile (Flutter) · Backend (Xano)</h1>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="grid cols-2">
+        <aside class="card toc">
+          <h3>Table of Contents</h3>
+          <nav class="toc" aria-label="Table of Contents">
+            <a href="#system-overview">1. System Overview</a>
+            <a href="#web-ia">2. Web App — Information Architecture (Bubble)</a>
+            <a href="#web-workflows">3. Web App — Workflows & Pages</a>
+            <a href="#flutter-app">4. Flutter Mobile App</a>
+            <a href="#xano-api">5. Xano — API & Backend Summary</a>
+            <a href="#xano-db">6. Xano — Database Schema</a>
+            <a href="#troubleshooting">7. Troubleshooting Guide</a>
+          </nav>
+        </aside>
+        <section
+          class="card"
+          id="system-overview"
+          aria-labelledby="system-overview-h"
+        >
+          <h2 id="system-overview-h">1) System Overview</h2>
+          <div class="kpi" aria-label="Key counts">
+            <div class="k">
+              <span class="v">Bubble</span
+              ><span class="pill">289 sections</span>
+            </div>
+            <div class="k">
+              <span class="v">Xano</span><span class="pill">43 endpoints</span
+              ><span class="pill">42 functions</span
+              ><span class="pill">5 tasks</span>
+            </div>
+            <div class="k">
+              <span class="v">Flutter</span><span class="pill">132 files</span>
+            </div>
+            <div class="k">
+              <span class="v">DB</span><span class="pill">24 tables</span>
+            </div>
+          </div>
+          <p>
+            The architecture centers on a Xano backend exposing 43 API endpoints
+            consumed by two clients: a Bubble web app and a Flutter mobile app.
+            Both clients interact with Xano through well-defined API contracts
+            for reads, writes, and workflow actions. Within Xano, reusable
+            business logic is organized as 42 functions; longer-running or
+            scheduled operations are isolated as 5 tasks. Data persistence is
+            handled in the Xano-managed DB across 24 tables.
+          </p>
+
+          <div
+            class="svg-wrap"
+            role="figure"
+            aria-label="System architecture diagram"
+          >
+            <svg
+              viewBox="0 0 920 430"
+              width="100%"
+              height="auto"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <linearGradient id="g1" x1="0" x2="1">
+                  <stop offset="0" stop-color="#0ea5e9" stop-opacity=".25" />
+                  <stop offset="1" stop-color="#67e8f9" stop-opacity=".15" />
+                </linearGradient>
+                <linearGradient id="g2" x1="0" x2="1">
+                  <stop offset="0" stop-color="#22c55e" stop-opacity=".25" />
+                  <stop offset="1" stop-color="#86efac" stop-opacity=".15" />
+                </linearGradient>
+                <linearGradient id="g3" x1="0" x2="1">
+                  <stop offset="0" stop-color="#f59e0b" stop-opacity=".25" />
+                  <stop offset="1" stop-color="#fde68a" stop-opacity=".15" />
+                </linearGradient>
+                <linearGradient id="g4" x1="0" x2="1">
+                  <stop offset="0" stop-color="#a78bfa" stop-opacity=".25" />
+                  <stop offset="1" stop-color="#ddd6fe" stop-opacity=".15" />
+                </linearGradient>
+                <style>
+                  .bx {
+                    fill: #0b1220;
+                    stroke: #2a313a;
+                    stroke-width: 1.2;
+                  }
+                  .ttl {
+                    fill: #e6edf3;
+                    font: 700 13px/1.2 system-ui, -apple-system, Segoe UI,
+                      Roboto;
+                  }
+                  .sub {
+                    fill: #9aa5b1;
+                    font: 12px system-ui, -apple-system, Segoe UI, Roboto;
+                  }
+                  .edge {
+                    stroke: #3b4856;
+                    stroke-width: 1.4;
+                    marker-end: url(#arrow);
+                  }
+                  .cap {
+                    fill: #9aa5b1;
+                    font: 11px system-ui, -apple-system, Segoe UI, Roboto;
+                  }
+                </style>
+                <marker
+                  id="arrow"
+                  markerWidth="10"
+                  markerHeight="8"
+                  refX="8"
+                  refY="4"
+                  orient="auto"
+                >
+                  <path d="M0,0 L10,4 L0,8 Z" fill="#3b4856" />
+                </marker>
+              </defs>
+              <!-- Clients -->
+              <rect
+                x="30"
+                y="40"
+                rx="10"
+                ry="10"
+                width="250"
+                height="90"
+                class="bx"
+                fill="url(#g1)"
+              />
+              <text x="50" y="70" class="ttl">Web Client — Bubble</text>
+              <text x="50" y="92" class="sub">
+                289 sections • Auth0 • Stripe • Brevo
+              </text>
+
+              <rect
+                x="30"
+                y="160"
+                rx="10"
+                ry="10"
+                width="250"
+                height="110"
+                class="bx"
+                fill="url(#g1)"
+              />
+              <text x="50" y="190" class="ttl">Mobile App — Flutter</text>
+              <text x="50" y="212" class="sub">
+                132 files • Auth0 • AppsFlyer • OneSignal
+              </text>
+
+              <!-- Xano -->
+              <rect
+                x="330"
+                y="80"
+                rx="12"
+                ry="12"
+                width="260"
+                height="140"
+                class="bx"
+                fill="url(#g2)"
+              />
+              <text x="350" y="110" class="ttl">Xano Backend</text>
+              <text x="350" y="132" class="sub">
+                43 endpoints • 42 functions • 5 tasks
+              </text>
+
+              <!-- DB -->
+              <rect
+                x="650"
+                y="95"
+                rx="10"
+                ry="10"
+                width="240"
+                height="110"
+                class="bx"
+                fill="url(#g3)"
+              />
+              <text x="670" y="125" class="ttl">Xano DB</text>
+              <text x="670" y="147" class="sub">24 tables</text>
+
+              <!-- Integrations -->
+              <rect
+                x="120"
+                y="300"
+                rx="10"
+                ry="10"
+                width="140"
+                height="40"
+                class="bx"
+                fill="url(#g4)"
+              />
+              <text x="130" y="325" class="sub">Auth0</text>
+
+              <rect
+                x="280"
+                y="300"
+                rx="10"
+                ry="10"
+                width="120"
+                height="40"
+                class="bx"
+                fill="url(#g4)"
+              />
+              <text x="290" y="325" class="sub">Stripe</text>
+
+              <rect
+                x="420"
+                y="300"
+                rx="10"
+                ry="10"
+                width="120"
+                height="40"
+                class="bx"
+                fill="url(#g4)"
+              />
+              <text x="430" y="325" class="sub">Brevo</text>
+
+              <rect
+                x="560"
+                y="300"
+                rx="10"
+                ry="10"
+                width="140"
+                height="40"
+                class="bx"
+                fill="url(#g4)"
+              />
+              <text x="570" y="325" class="sub">AppsFlyer</text>
+
+              <rect
+                x="720"
+                y="300"
+                rx="10"
+                ry="10"
+                width="140"
+                height="40"
+                class="bx"
+                fill="url(#g4)"
+              />
+              <text x="730" y="325" class="sub">OneSignal</text>
+
+              <!-- Edges -->
+              <line x1="280" y1="85" x2="330" y2="120" class="edge" />
+              <text x="250" y="110" class="cap">HTTPS API</text>
+
+              <line x1="280" y1="210" x2="330" y2="160" class="edge" />
+              <text x="250" y="185" class="cap">HTTPS API</text>
+
+              <line x1="590" y1="150" x2="650" y2="150" class="edge" />
+              <text x="600" y="140" class="cap">DB access</text>
+
+              <!-- Integration edges -->
+              <line x1="160" y1="130" x2="160" y2="300" class="edge" />
+              <text x="95" y="220" class="cap">OAuth</text>
+
+              <line x1="340" y1="220" x2="340" y2="300" class="edge" />
+              <text x="300" y="265" class="cap">Billing</text>
+
+              <line x1="470" y1="220" x2="470" y2="300" class="edge" />
+              <text x="450" y="265" class="cap">Email</text>
+
+              <line x1="600" y1="220" x2="600" y2="300" class="edge" />
+              <text x="562" y="265" class="cap">Attribution</text>
+
+              <line x1="780" y1="220" x2="780" y2="300" class="edge" />
+              <text x="752" y="265" class="cap">Push</text>
+            </svg>
+            <div class="legend" aria-hidden="true">
+              <span class="item"
+                ><span class="sw sw-clients"></span>Clients</span
+              >
+              <span class="item"><span class="sw sw-xano"></span>Xano</span>
+              <span class="item"><span class="sw sw-db"></span>DB</span>
+              <span class="item"
+                ><span class="sw sw-int"></span>Integrations</span
+              >
+            </div>
+          </div>
+
+          <h3>Data flow</h3>
+          <ul>
+            <li>
+              Bubble and Flutter initiate API calls to Xano for reads, writes,
+              and workflow actions.
+            </li>
+            <li>
+              Xano endpoints invoke functions for validation, transformation,
+              and orchestration.
+            </li>
+            <li>
+              Tasks execute asynchronous/background work when appropriate.
+            </li>
+            <li>
+              Final state is committed to the DB; results are returned to
+              clients.
+            </li>
+          </ul>
+
+          <h3>Contracts and boundaries</h3>
+          <ul>
+            <li>
+              <b>Client boundary</b>: Bubble/Flutter adhere strictly to endpoint
+              request/response shapes.
+            </li>
+            <li>
+              <b>Service boundary</b>: Xano encapsulates domain logic in
+              functions and defers non-interactive work to tasks.
+            </li>
+            <li>
+              <b>Data boundary</b>: Only Xano accesses the DB; clients have no
+              direct data access.
+            </li>
+          </ul>
+
+          <h3>How to use this guide</h3>
+          <p>
+            Start with the Web IA for page purposes and gates, then dive into
+            detailed workflows. For Flutter, use the folder view and provider
+            map to trace state. The Xano section lists endpoints and parameters
+            you can match in Bubble’s API Connector and Flutter services. Use
+            the Troubleshooting section for concrete failure patterns and
+            file-level checks.
+          </p>
+        </section>
+      </div>
+
+      <section class="card" id="web-ia" aria-labelledby="web-ia-h">
+        <h2 id="web-ia-h">2) Web App — Information Architecture (Bubble)</h2>
+
+        <div class="callout info">
+          <div class="label">At a glance</div>
+          <p>
+            Capila WebApp is a clinic-focused application supporting onboarding,
+            team/patient management, “Recovery Protocols,” authentication,
+            verification, and subscriptions. Integrations: Auth0 (login), Brevo
+            (email), Stripe (plans/billing).
+          </p>
+        </div>
+
+        <h3>Public vs. authenticated areas</h3>
+        <ul>
+          <li>
+            <b>Public:</b> index, Verify Email, email-verification-success,
+            Reset Password, public_pricing (may actively log out on load to keep
+            public).
+          </li>
+          <li>
+            <b>Token-gated:</b> Dashboard, Patients, Manage Team, Settings
+            (general/billing), Plans, Recovery Protocol, Confirmation Inbox,
+            Email confirmation.
+          </li>
+        </ul>
+
+        <h3>Access-control gates and session handling</h3>
+        <ul>
+          <li>
+            <b>SessionManager</b>: centralized session validation and routing.
+          </li>
+          <li>
+            <b>AuthLoader</b> (ValidateToken / Validate access token / Generate
+            Token / Verify Token) runs on page load for protected pages and
+            confirmation flows. Redirects on invalid tokens.
+          </li>
+          <li>
+            <b>Email verification gates</b>: Verify Email and
+            email-verification-success manage verification state; some
+            onboarding branches use
+            <span class="mono">EmailVerificationNotRequired</span>.
+          </li>
+          <li>
+            <b>Roles</b>: ClinicOwnerLogin / ClinicAdminLogin entry points
+            referenced. Team Admin can update clinic name and manage team. “Get
+            Admin’s Clinic” implies admin-only views/actions.
+          </li>
+          <li>
+            <b>Billing access</b>: Authenticated routes may redirect to billing
+            context; Stripe Customer Portal requires authenticated subscription.
+          </li>
+        </ul>
+
+        <h3>Shared components & integrations</h3>
+        <ul>
+          <li>
+            <b>Reusable UI</b>: <span class="mono">header_2</span> drives nav,
+            GroupFocus menus, and cross-page routing.
+          </li>
+          <li>
+            <b>Stripe</b>: Products, Checkout Link (checkout session), Customer
+            Portal Link, Subscription Details. Used by
+            <span class="mono">Plans</span>,
+            <span class="mono">setting-billing</span>,
+            <span class="mono">public_pricing</span>.
+          </li>
+          <li>
+            <b>Brevo</b>: SMTP email for verification and invitations (resend
+            verification, send invites).
+          </li>
+          <li>
+            <b>Team and invitations</b>: Generate/Verify Invitation Slug, Update
+            Invitation Token; manage and verify invitation links across Manage
+            Team and Confirmation Inbox.
+          </li>
+          <li>
+            <b>Patients and clinicians</b>: Patients API (list/CRUD/monthly
+            count). Doctor endpoints (create/get/update).
+          </li>
+          <li>
+            <b>Recovery Protocol</b>: Own API for instruction CRUD and
+            visibility.
+          </li>
+          <li>
+            <b>Navigation</b>: Tab-like group clicks for settings/patients/team;
+            menu toggles via GroupFocus; “Open Dashboard — HomePageBtn clicked”
+            common return.
+          </li>
+          <li>
+            <b>Privacy rules</b>: Declared in data layer; specifics not
+            provided.
+          </li>
+        </ul>
+
+        <h3>Pages and flows</h3>
+        <div class="grid cols-2">
+          <div class="card">
+            <h4>index</h4>
+            <div class="meta">
+              <span class="pill"
+                >Purpose: OAuth entry + token validation/redirect</span
+              >
+            </div>
+            <div class="kv">
+              <div class="k">Inputs/prereqs</div>
+              <div>Auth0 flow; tokens if present</div>
+            </div>
+            <div class="kv">
+              <div class="k">APIs/services</div>
+              <div>Auth0 via API Connector</div>
+            </div>
+            <div class="kv">
+              <div class="k">Navigation</div>
+              <div>Redirects based on token validity</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>Verify Email</h4>
+            <div class="meta">
+              <span class="pill">Purpose: Email verification & resend</span>
+            </div>
+            <div class="kv">
+              <div class="k">Inputs</div>
+              <div><span class="mono">confirmation_link</span> (URL param)</div>
+            </div>
+            <div class="kv">
+              <div class="k">Main actions</div>
+              <div>
+                Call verify-token; on success → email-verification-success
+              </div>
+            </div>
+            <div class="kv">
+              <div class="k">APIs</div>
+              <div>
+                GET <span class="mono">/api:c4EZ2T9d/verify-token?token=…</span>
+              </div>
+            </div>
+            <div class="kv">
+              <div class="k">Errors</div>
+              <div>Show message on token expiry/error</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>email-verification-success</h4>
+            <div class="meta">
+              <span class="pill">Purpose: Post-verification landing</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>Reset Password</h4>
+            <div class="meta">
+              <span class="pill">Purpose: Password reset flow</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>Confirmation Inbox</h4>
+            <div class="meta">
+              <span class="pill"
+                >Purpose: Token validation + invitation/verification UI
+                (email/link tabs)</span
+              >
+            </div>
+            <div class="kv">
+              <div class="k">Inputs</div>
+              <div>Access token; invitation link state</div>
+            </div>
+            <div class="kv">
+              <div class="k">Main actions</div>
+              <div>Validate token, send invites, copy link</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>Clinic Onboarding</h4>
+            <div class="meta">
+              <span class="pill">Purpose: Step-by-step clinic setup</span>
+            </div>
+            <div class="kv">
+              <div class="k">Inputs</div>
+              <div>
+                Clinic name, full name, patient range, emoji/logo; slug
+                validation
+              </div>
+            </div>
+            <div class="kv">
+              <div class="k">Notes</div>
+              <div>
+                <span class="mono">EmailVerificationNotRequired</span> branch
+                may bypass verification
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>Capila-WebApp Dashboard</h4>
+            <div class="meta">
+              <span class="pill"
+                >Purpose: Authenticated home + quick actions</span
+              >
+            </div>
+            <div class="kv">
+              <div class="k">Prereqs</div>
+              <div>Valid token via AuthLoader</div>
+            </div>
+            <div class="kv">
+              <div class="k">Main actions</div>
+              <div>Invite/validate patients; init dashboard state</div>
+            </div>
+            <div class="kv">
+              <div class="k">APIs</div>
+              <div>Invitation link fetch/update; patients list</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>Patients</h4>
+            <div class="meta">
+              <span class="pill">Purpose: Manage patient list & invites</span>
+            </div>
+            <div class="kv">
+              <div class="k">Prereqs</div>
+              <div>Authenticated via AuthLoader</div>
+            </div>
+            <div class="kv">
+              <div class="k">APIs</div>
+              <div>Patients API (list/CRUD), invitation link updates</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>Manage Team</h4>
+            <div class="meta">
+              <span class="pill">Purpose: Team management & invitations</span>
+            </div>
+            <div class="kv">
+              <div class="k">Inputs</div>
+              <div>Admin context (Get Admin’s Clinic)</div>
+            </div>
+            <div class="kv">
+              <div class="k">Main actions</div>
+              <div>
+                Invite via email, generate/verify invitation slug, delete
+                members, update clinic name
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>Plans</h4>
+            <div class="meta">
+              <span class="pill">Purpose: Subscription management</span>
+            </div>
+            <div class="kv">
+              <div class="k">Prereqs</div>
+              <div>Authenticated; billing state initialized</div>
+            </div>
+            <div class="kv">
+              <div class="k">APIs</div>
+              <div>Stripe: Subscription Details, Customer Portal</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>public_pricing</h4>
+            <div class="meta">
+              <span class="pill">Purpose: Public pricing + checkout</span>
+            </div>
+            <div class="kv">
+              <div class="k">Notes</div>
+              <div>May log out user on load to enforce public context</div>
+            </div>
+            <div class="kv">
+              <div class="k">APIs</div>
+              <div>Stripe: Products, Checkout session</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>Recovery Protocol</h4>
+            <div class="meta">
+              <span class="pill">Purpose: Manage protocol instructions</span>
+            </div>
+            <div class="kv">
+              <div class="k">Main actions</div>
+              <div>
+                Create/Edit/Delete, toggle visibility, pick
+                categories/durations/start time, paginate
+              </div>
+            </div>
+            <div class="kv">
+              <div class="k">APIs</div>
+              <div>Recovery Protocol endpoints</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>setting-general</h4>
+            <div class="meta">
+              <span class="pill">Purpose: General settings</span>
+            </div>
+            <div class="kv">
+              <div class="k">Actions</div>
+              <div>
+                Password change; notification preferences (product updates,
+                promotion/marketing)
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>setting-billing</h4>
+            <div class="meta">
+              <span class="pill">Purpose: Billing/subscription</span>
+            </div>
+            <div class="kv">
+              <div class="k">Navigation</div>
+              <div>Redirects as needed; opens Stripe Customer Portal</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>Email confirmation</h4>
+            <div class="meta">
+              <span class="pill"
+                >Purpose: Validate access token on load and finalize
+                confirmation</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="card"
+        id="web-workflows"
+        aria-labelledby="web-workflows-h"
+      >
+        <h2 id="web-workflows-h">3) Web App — Workflows & Pages</h2>
+
+        <details open>
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span><b>Update Invitation Token</b> —
+              Dashboard</span
+            >
+          </summary>
+          <div class="kv">
+            <div class="k">Steps</div>
+            <div>
+              1) Click “Update Token” → 2) API PUT
+              <span class="mono"
+                >/api:qDtUFIjd/invitation-token/[clinic_id]</span
+              >
+              → 3) On success set
+              <span class="mono">custom.invitation_link</span> + update UI
+            </div>
+          </div>
+          <div class="kv">
+            <div class="k">Inputs/Outputs</div>
+            <div>
+              Input: <span class="mono">clinic_id</span>. Output:
+              <span class="mono">invitation_link:string</span>
+            </div>
+          </div>
+          <div class="kv">
+            <div class="k">Validation</div>
+            <div>
+              Require <span class="mono">clinic_id</span>; inspect
+              <span class="mono">error.status_code/status_message</span> on
+              failure
+            </div>
+          </div>
+          <div class="kv">
+            <div class="k">Debug</div>
+            <div>
+              Bubble Debugger → “Result of step” for API Connector step “Update
+              Invitation Token”
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span><b>Get Invitation Link</b> — Dashboard
+              Page Load</span
+            >
+          </summary>
+          <div class="kv">
+            <div class="k">Steps</div>
+            <div>
+              1) On load: clear temp invite lists → 2) GET
+              <span class="mono"
+                >/api:IcTSTj1X/invitation-link/[clinic_id]</span
+              >
+              → 3) Save to <span class="mono">custom.invitation_link</span> and
+              show
+            </div>
+          </div>
+          <div class="kv">
+            <div class="k">Validation</div>
+            <div>
+              Ensure <span class="mono">clinic_id</span> exists; fallback UI if
+              error/missing <span class="mono">body.invitation_link</span>
+            </div>
+          </div>
+          <div class="kv">
+            <div class="k">Debug</div>
+            <div>
+              Debugger → “PageLoad –&gt; StatesInitialization” → inspect GET
+              step result
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span><b>Verify Email</b> — verify-email
+              page</span
+            >
+          </summary>
+          <div class="kv">
+            <div class="k">Steps</div>
+            <div>
+              1) Read URL <span class="mono">confirmation_link</span> → 2) GET
+              <span class="mono">/api:c4EZ2T9d/verify-token?token=…</span> → 3)
+              On success → email-verification-success (Lottie loader while
+              pending)
+            </div>
+          </div>
+          <div class="kv">
+            <div class="k">Validation</div>
+            <div>Require non-empty token; show error on invalid/expired</div>
+          </div>
+          <div class="kv">
+            <div class="k">Debug</div>
+            <div>
+              Check response body (<span class="mono"
+                >is_email_verified, email_verified_at</span
+              >) in debugger
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span><b>Resend Verification Email</b> —
+              confirmation-inbox</span
+            >
+          </summary>
+          <div class="kv">
+            <div class="k">Steps</div>
+            <div>
+              Click “Resend verification email” → multi-step prepare/send via
+              API Connector → success toast
+            </div>
+          </div>
+          <div class="kv">
+            <div class="k">APIs</div>
+            <div>
+              Preparation (Xano) + Brevo POST
+              <span class="mono">https://api.brevo.com/v3/smtp/email</span> with
+              <span class="mono">CONFIRMATION_LINK</span>
+            </div>
+          </div>
+          <div class="kv">
+            <div class="k">Validation</div>
+            <div>Require Current User email; handle send failure</div>
+          </div>
+          <div class="kv">
+            <div class="k">Debug</div>
+            <div>
+              Workflow “ResendVerificationEmail” → inspect each step’s “Result
+              of step N”
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span><b>Recovery Protocol — CRUD</b></span
+            >
+          </summary>
+          <div class="kv">
+            <div class="k">Endpoints</div>
+            <div>
+              Read: GET
+              <span class="mono"
+                >/api:ymRho1Br/instructions/[clinic_id]?timestamp=…</span
+              ><br />
+              Create: POST
+              <span class="mono">/api:ymRho1Br/instructions/[clinic_id]</span>
+              body
+              <span class="mono"
+                >{ name,type,startday,noofdays,description,emoji,isenabled
+                }</span
+              ><br />
+              Edit: PUT
+              <span class="mono"
+                >/api:ymRho1Br/instructions/[instruction_id]</span
+              ><br />
+              Delete: DELETE
+              <span class="mono"
+                >/api:ymRho1Br/instructions/[instruction_id]</span
+              ><br />
+              Toggle: PUT
+              <span class="mono"
+                >/instructions/[instruction_id]/visibility</span
+              >
+              body <span class="mono">{ isenabled:boolean }</span>
+            </div>
+          </div>
+          <div class="kv">
+            <div class="k">Validation</div>
+            <div>
+              Check required fields (title/name, category, startday, no_of_days,
+              emoji); show server error and keep modal open on failure
+            </div>
+          </div>
+          <div class="kv">
+            <div class="k">Debug</div>
+            <div>
+              Workflow events: “GetRecoveryProtocolActions”, “Add/Edit/Delete
+              Recovery Protocol Instruction”
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span><b>Token validation</b> — Backend
+              Workflow (Bubble)</span
+            >
+          </summary>
+          <div class="kv">
+            <div class="k">Steps</div>
+            <div>
+              POST
+              <span class="mono"
+                >https://capila-webapp.bubbleapps.io/version-test/api/1.1/wf/validate_access_token</span
+              >
+              with <span class="mono">access_token</span> → response with
+              <span class="mono">response.valid</span>, clinic, subscription
+            </div>
+          </div>
+          <div class="kv">
+            <div class="k">Validation</div>
+            <div>
+              Check <span class="mono">response.valid</span> before UI init;
+              handle <span class="mono">returned_an_error</span>
+            </div>
+          </div>
+          <div class="kv">
+            <div class="k">Debug</div>
+            <div>
+              Bubble Backend → API Workflows →
+              <span class="mono">validate_access_token</span> logs/history
+            </div>
+          </div>
+        </details>
+
+        <h3>Common failure points & quick checks</h3>
+        <ul>
+          <li>
+            Missing IDs/params (e.g., <span class="mono">clinic_id</span>,
+            <span class="mono">confirmation_link</span>) → verify via element
+            bindings or URL; check “Result of step X”.
+          </li>
+          <li>
+            Wrong response shape → inspect
+            <span class="mono">response.body</span> in debugger for expected
+            fields.
+          </li>
+          <li>
+            Network/CORS/Auth errors → check API Connector logs and Xano error
+            status and message.
+          </li>
+          <li>
+            Token expiry → check timestamps and returned flags (e.g.,
+            <span class="mono">is_email_verified</span>,
+            <span class="mono">returned_an_error</span>).
+          </li>
+        </ul>
+      </section>
+
+      <section class="card" id="flutter-app" aria-labelledby="flutter-app-h">
+        <h2 id="flutter-app-h">4) Flutter Mobile App</h2>
+
+        <h3>Project structure</h3>
+        <div class="grid cols-3">
+          <details open>
+            <summary>
+              <span class="summary-row"
+                ><span class="chev"></span><b>Top-level</b>
+                <span class="pill">selected</span></span
+              >
+            </summary>
+            <ul>
+              <li>
+                <span class="mono">android/</span>,
+                <span class="mono">ios/</span> (OneSignal
+                NotificationServiceExtension)
+              </li>
+              <li><span class="mono">assets/</span> (lottie, chatbot jsons)</li>
+              <li><span class="mono">pubspec.yaml</span></li>
+            </ul>
+          </details>
+
+          <details open>
+            <summary>
+              <span class="summary-row"
+                ><span class="chev"></span><b>lib/ root</b>
+                <span class="pill">files</span></span
+              >
+            </summary>
+            <ul>
+              <li><span class="mono">main.dart</span></li>
+              <li><span class="mono">apps_flyer/init.dart</span></li>
+              <li>
+                <span class="mono"
+                  >cache_managers/image_cache_manager.dart</span
+                >
+              </li>
+              <li>
+                <span class="mono"
+                  >notifications/onesignal_permission_observer.dart</span
+                >
+              </li>
+            </ul>
+          </details>
+
+          <details open>
+            <summary>
+              <span class="summary-row"
+                ><span class="chev"></span><b>lib/chatbot/</b>
+                <span class="pill">7+ items</span></span
+              >
+            </summary>
+            <ul>
+              <li><span class="mono">ai_report_webview.dart</span></li>
+              <li><span class="mono">chatbot.dart</span></li>
+              <li><span class="mono">chatbot_card.dart</span></li>
+              <li><span class="mono">empty_state.dart</span></li>
+              <li><span class="mono">messages.dart</span></li>
+              <li><span class="mono">send_message.dart</span></li>
+              <li><span class="mono">typewriter_text.dart</span></li>
+              <li>
+                <span class="mono">voice_input/</span> (voice input widgets)
+              </li>
+            </ul>
+          </details>
+
+          <details>
+            <summary>
+              <span class="summary-row"
+                ><span class="chev"></span><b>lib/login/</b>
+                <span class="pill">Auth0</span></span
+              >
+            </summary>
+            <ul>
+              <li><span class="mono">login_page.dart</span></li>
+              <li><span class="mono">post_login_initializer.dart</span></li>
+            </ul>
+          </details>
+
+          <details>
+            <summary>
+              <span class="summary-row"
+                ><span class="chev"></span><b>lib/homepage/</b></span
+              >
+            </summary>
+            <ul>
+              <li>App container + home screens</li>
+            </ul>
+          </details>
+
+          <details>
+            <summary>
+              <span class="summary-row"
+                ><span class="chev"></span><b>lib/guide/</b></span
+              >
+            </summary>
+            <ul>
+              <li>Guides screens</li>
+            </ul>
+          </details>
+
+          <details>
+            <summary>
+              <span class="summary-row"
+                ><span class="chev"></span><b>lib/recovery_protocol/</b></span
+              >
+            </summary>
+            <ul>
+              <li>Recovery protocol UI & logic</li>
+            </ul>
+          </details>
+
+          <details open>
+            <summary>
+              <span class="summary-row"
+                ><span class="chev"></span><b>lib/services/</b>
+                <span class="pill">3 files</span></span
+              >
+            </summary>
+            <ul>
+              <li><span class="mono">onboarding.dart</span></li>
+              <li><span class="mono">recovery_protocol.dart</span></li>
+              <li><span class="mono">user.dart</span></li>
+            </ul>
+          </details>
+
+          <details open>
+            <summary>
+              <span class="summary-row"
+                ><span class="chev"></span><b>lib/providers/</b>
+                <span class="pill">6 files</span></span
+              >
+            </summary>
+            <ul>
+              <li><span class="mono">user_provider.dart</span></li>
+              <li><span class="mono">guides_provider.dart</span></li>
+              <li><span class="mono">language_provider.dart</span></li>
+              <li><span class="mono">chat_messages_provider.dart</span></li>
+              <li><span class="mono">instructions_provider.dart</span></li>
+              <li>
+                <span class="mono">chatbot_configuration_provider.dart</span>
+              </li>
+            </ul>
+          </details>
+
+          <details open>
+            <summary>
+              <span class="summary-row"
+                ><span class="chev"></span><b>lib/utils/</b></span
+              >
+            </summary>
+            <ul>
+              <li><span class="mono">login.dart</span></li>
+              <li><span class="mono">chatbot.dart</span></li>
+              <li><span class="mono">recovery_protocol.dart</span></li>
+              <li>
+                Others referenced: date/time, settings navigation (names not
+                specified)
+              </li>
+            </ul>
+          </details>
+
+          <details>
+            <summary>
+              <span class="summary-row"
+                ><span class="chev"></span><b>lib/settings/</b></span
+              >
+            </summary>
+            <ul>
+              <li>Settings UI, delete account dialog</li>
+            </ul>
+          </details>
+
+          <details>
+            <summary>
+              <span class="summary-row"
+                ><span class="chev"></span><b>lib/types/</b></span
+              >
+            </summary>
+            <ul>
+              <li>Model classes (chatbot, guide, recovery_protocol)</li>
+            </ul>
+          </details>
+        </div>
+
+        <h3>State management (Providers)</h3>
+        <ul>
+          <li>
+            UserProvider — user profile, onboarding fields, conversation id,
+            notifications enabled, dateOfOp, welcomeMessage.
+          </li>
+          <li>GuidesProvider — cached guides and categorized guides.</li>
+          <li>LanguageProvider — cached language map.</li>
+          <li>
+            MessagesProvider — in-memory chat messages list and history loaded
+            flag.
+          </li>
+          <li>InstructionsProvider — recovery protocol instructions list.</li>
+          <li>
+            ChatbotConfigurationProvider — global prompt, flags, configured
+            state.
+          </li>
+        </ul>
+
+        <h3>Initialization & post-login</h3>
+        <ul>
+          <li>
+            <b>main()</b>: <span class="mono">ensureInitialized()</span> →
+            <span class="mono">AppsFlyerService().initAppsFlyer()</span> →
+            orientation →
+            <span class="mono">runApp(MultiProvider(... Capilla()))</span> →
+            <span class="mono">OneSignal.initialize("fabb1b0f-…")</span> and
+            <span class="mono">Debug.setLogLevel</span>.
+          </li>
+          <li>
+            <b>Capilla</b>: Builds <span class="mono">MaterialApp</span>, runs
+            <span class="mono">checkLoginStatus()</span> (Auth0
+            credentialsManager + <span class="mono">decodeAccessToken</span>),
+            registers <span class="mono">OneSignalPermissionObserver</span>.
+            Routes to HomePageInitializer or LoginPage.
+          </li>
+          <li>
+            <b>Login flow</b>:
+            <span class="mono">Auth0.webAuthentication(scheme:'capila')</span> →
+            on success → <span class="mono">PostLoginInitializer</span>.
+          </li>
+          <li>
+            <b>PostLoginInitializer</b>:
+            <span class="mono">_decodeToken()</span> updates UserProvider via
+            <span class="mono">updateUserProvider</span> →
+            <span class="mono">OneSignal.login(auth0_sub)</span> →
+            <span class="mono">checkAndVerifyInvitationToken</span>
+            (FlutterSecureStorage).
+          </li>
+          <li>
+            <b>AppsFlyer</b>:
+            <span class="mono">initSdk(registerOnDeepLinkingCallback:true)</span
+            >; on deep link → write
+            <span class="mono">invitation_token</span> to secure storage and
+            POST to server.
+          </li>
+          <li>
+            <b>SSE</b>: Created in
+            <span class="mono">chatbot/typewriter_text.dart</span> via
+            <span class="mono">SSEClient.subscribeToSSE</span> when a user
+            message exists.
+          </li>
+        </ul>
+
+        <h3>Models and data types</h3>
+        <ul>
+          <li>
+            <span class="mono">Message</span> — fields:
+            <span class="mono">Role role</span>,
+            <span class="mono">Content content</span>; factory
+            <span class="mono">fromJson(Map)</span>.
+          </li>
+          <li>
+            <span class="mono">Content</span> —
+            <span class="mono">String textMessage</span>,
+            <span class="mono">List&lt;File&gt;? localImages</span>,
+            <span class="mono">List&lt;dynamic&gt;? networkImages</span>.
+          </li>
+          <li>
+            <span class="mono">ChatbotConfiguration</span> —
+            <span class="mono">String globalPrompt</span>,
+            <span class="mono">List&lt;String&gt; dynamicFields</span>,
+            <span class="mono">bool useFullContext</span>.
+          </li>
+          <li>
+            <span class="mono">Guide</span> —
+            <span class="mono">String title</span>,
+            <span class="mono">String thumbnailUrl</span>,
+            <span class="mono">List&lt;GuideBlock&gt; blocks</span>.
+          </li>
+          <li>
+            <span class="mono">CategorizedGuide</span> —
+            <span class="mono">Category category</span>,
+            <span class="mono">List&lt;Guide&gt; guides</span>.
+          </li>
+          <li>
+            <span class="mono">Instruction</span> —
+            <span class="mono"
+              >name,type,startDay,noOfDays,InstructionDescription,InstructionMetadata,isPostOp,emoji,status</span
+            >.
+          </li>
+          <li>
+            Serialization: JSON parsing via
+            <span class="mono">json.decode</span> + factory
+            <span class="mono">fromJson</span> across models.
+          </li>
+        </ul>
+
+        <h3>Integrations & libraries</h3>
+        <div class="grid cols-3">
+          <div class="card">
+            <h4>Core/UI</h4>
+            <ul>
+              <li>provider <span class="tag">^6.0.0</span></li>
+              <li>google_fonts <span class="tag">^6.2.1</span></li>
+              <li>flutter_svg <span class="tag">^2.0.17</span></li>
+              <li>lottie <span class="tag">^3.3.1</span></li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Networking & IO</h4>
+            <ul>
+              <li>http</li>
+              <li>flutter_client_sse <span class="tag">^2.0.3</span></li>
+              <li>url_launcher <span class="tag">^6.3.2</span></li>
+              <li>mime <span class="tag">^2.0.0</span></li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Auth & analytics</h4>
+            <ul>
+              <li>auth0_flutter <span class="tag">^1.8.0</span></li>
+              <li>appsflyer_sdk <span class="tag">^6.17.3</span></li>
+              <li>onesignal_flutter <span class="tag">^5.1.2</span></li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Media & content</h4>
+            <ul>
+              <li>speech_to_text <span class="tag">^7.0.0</span></li>
+              <li>audio_waveforms <span class="tag">^1.3.0</span></li>
+              <li>image_picker <span class="tag">^1.1.2</span></li>
+              <li>
+                cached_network_image <span class="tag">^3.2.1</span> +
+                flutter_cache_manager <span class="tag">^3.4.1</span>
+              </li>
+              <li>
+                youtube_player_iframe <span class="tag">^5.2.1</span>,
+                youtube_player_flutter <span class="tag">^9.1.1</span>
+              </li>
+              <li>flutter_markdown <span class="tag">^0.7.6+2</span></li>
+              <li>flutter_secure_storage <span class="tag">^9.2.4</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Networking and endpoints</h3>
+        <ul>
+          <li>
+            HTTP: <span class="mono">package:http</span> (no global
+            interceptors/retry)
+          </li>
+          <li>
+            SSE: <span class="mono">flutter_client_sse</span> via
+            <span class="mono">SSEClient.subscribeToSSE</span> (POST)
+          </li>
+          <li>
+            Auth header used in
+            <span class="mono">decodeAccessToken</span> only:
+            <span class="mono">Authorization: Bearer $accessToken</span>
+          </li>
+        </ul>
+        <details open>
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span>Core endpoints used in app code</span
+            >
+          </summary>
+          <ul class="mono">
+            <li>
+              GET /api:4urDUgSZ/users — decode access token / fetch user payload
+            </li>
+            <li>
+              GET /api:4urDUgSZ/welcome-message/{userId} — welcome message
+            </li>
+            <li>
+              GET /api:guWXU3Fa/guides?category={bool} — categorized guides
+            </li>
+            <li>
+              GET /api:guWXU3Fa/home/guides?language={code}&days_since_op={n} —
+              home guides
+            </li>
+            <li>
+              GET /api:ymRho1Br/instructions/{clinicId} or /default-instructions
+              — recovery instructions
+            </li>
+            <li>GET /api:PT3FtuO7/messages/{conversationId} — chat history</li>
+            <li>POST /api:PT3FtuO7/messages — create message</li>
+            <li>
+              POST /api:PT3FtuO7/stream — SSE stream for assistant response
+            </li>
+            <li>
+              GET /api:PT3FtuO7/chatbot-configuration — chatbot global config
+            </li>
+            <li>
+              POST /api:swFYf34I/appsflyer — forward AppsFlyer attribution
+            </li>
+            <li>
+              POST /api:IcTSTj1X/verify-invitation-token — verify invitation
+              token
+            </li>
+            <li>
+              PUT /api:HFcAFK52/users_onboarding/{userId} — submit onboarding
+              updates
+            </li>
+            <li>PUT /api:4urDUgSZ/users/{userId} — update user</li>
+            <li>DELETE /api:4urDUgSZ/delete/{userId} — delete user</li>
+          </ul>
+        </details>
+
+        <h3>Major interconnections</h3>
+        <ul>
+          <li>
+            <span class="mono">send_message.dart</span> →
+            <span class="mono">MessagesProvider.appendNewMessage</span> → UI
+            rebuild → <span class="mono">typewriter_text.dart</span> SSE stream
+            → <span class="mono">persistMessage</span> (POST).
+          </li>
+          <li>
+            <span class="mono">login_page.dart</span> → Auth0 web auth →
+            <span class="mono">post_login_initializer.dart</span> →
+            <span class="mono">updateUserProvider</span> →
+            <span class="mono">OneSignal.login</span> → verify invitation token
+            (secure storage).
+          </li>
+          <li>
+            <span class="mono">apps_flyer/init.dart</span> deep link → write
+            <span class="mono">invitation_token</span> → POST to
+            <span class="mono">/appsflyer</span> → consumed post-login.
+          </li>
+          <li>
+            <span class="mono">onesignal_permission_observer.dart</span> updates
+            <span class="mono">UserProvider.setNotificationsEnabled</span>.
+          </li>
+          <li>
+            Home/Guides/Recovery Protocol services fetch over HTTP → respective
+            providers set data.
+          </li>
+        </ul>
+
+        <h3>Storage</h3>
+        <ul>
+          <li>
+            <b>Secure</b>: <span class="mono">flutter_secure_storage</span> key
+            <span class="mono">invitation_token</span> (set on AppsFlyer deep
+            link; verified post-login).
+          </li>
+          <li>
+            <b>Cache</b>: <span class="mono">cached_network_image</span> with
+            custom <span class="mono">DefaultCacheManager</span> (stale period
+            90 days).
+          </li>
+          <li>
+            <b>In-memory</b>: Providers (no Hive/SQLite/SharedPreferences).
+          </li>
+        </ul>
+      </section>
+
+      <section class="card" id="xano-api" aria-labelledby="xano-api-h">
+        <h2 id="xano-api-h">5) Xano — API & Backend Summary</h2>
+
+        <div class="grid cols-3">
+          <div class="card">
+            <h4>Auth0</h4>
+            <ul class="mono">
+              <li>
+                GET /auth0/init — Initialize Auth0; p: redirect_uri, state,
+                screen_hint; r: { authUrl:string }
+              </li>
+              <li>
+                GET /auth0/token — Exchange code for tokens; p: code,
+                redirect_uri
+              </li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Chatbot</h4>
+            <ul class="mono">
+              <li>
+                GET /chatbot-configuration — r: { id:int, created_at:number,
+                global_prompt:string, dynamic_fields:array,
+                use_full_context:boolean }
+              </li>
+              <li>GET /messages/{conversation_id} — list messages</li>
+              <li>
+                POST /messages — body: { conversation_id:string, role:enum,
+                deleted_at:number, content:object }
+              </li>
+              <li>
+                DELETE /messages/{conversation_id} — delete all messages in a
+                conversation
+              </li>
+              <li>
+                POST /stream — body: { conversation_id:string, system:string,
+                messages:array } — SSE response
+              </li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Invitations</h4>
+            <ul class="mono">
+              <li>
+                PUT /invitation-token/{clinic_id} — r: { invitation_link:string
+                }
+              </li>
+              <li>
+                GET /invitation-link/{clinic_id} — current invitation link
+              </li>
+              <li>
+                POST /verify-invitation-token — verify token (used post-login)
+              </li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Patients & Clinic</h4>
+            <ul class="mono">
+              <li>GET /patients/{clinic_id} — array of clinic patients</li>
+              <li>GET /clinic/{clinic_id}/members — array of clinic members</li>
+              <li>
+                Doctor endpoints referenced: Create_Doctor, Get Doctor, update
+                doctor
+              </li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Subscription</h4>
+            <ul class="mono">
+              <li>
+                GET /subscription/{clinic_id} — r: { id:string,
+                clinic_id:string, stripe_customer_id:string,
+                stripe_subscription_id:string, subscription_status:enum,
+                trial_end_date:number, … }
+              </li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Guides & Instructions</h4>
+            <ul class="mono">
+              <li>GET /guides?category={bool} — categorized guides</li>
+              <li>GET /home/guides?language={code}&days_since_op={n}</li>
+              <li>GET /instructions/{clinic_id} or /default-instructions</li>
+              <li>
+                POST/PUT/DELETE /instructions — CRUD; visibility toggle endpoint
+                available
+              </li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Users & Onboarding</h4>
+            <ul class="mono">
+              <li>GET /users — decode access token / fetch user payload</li>
+              <li>PUT /users_onboarding/{userId} — update onboarding</li>
+              <li>PUT /users/{userId} — update user</li>
+              <li>DELETE /delete/{userId} — delete user</li>
+              <li>GET /welcome-message/{userId} — welcome message</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>AppsFlyer</h4>
+            <ul class="mono">
+              <li>POST /appsflyer — forward AppsFlyer attribution</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Email verification</h4>
+            <ul class="mono">
+              <li>
+                GET /verify-token?token=… — verify email token; returns updated
+                user record
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Notes</h3>
+        <ul>
+          <li>
+            All calls referenced from clients are plain HTTP (no global
+            retry/backoff).
+          </li>
+          <li>
+            Bubble backend workflow
+            <span class="mono">validate_access_token</span> is used by the web
+            app to check tokens and return <span class="mono">valid</span>,
+            clinic, and subscription.
+          </li>
+        </ul>
+      </section>
+
+      <section class="card" id="xano-db" aria-labelledby="xano-db-h">
+        <div class="right">
+          <button class="small" id="toggleSchemas">Toggle all schemas</button>
+        </div>
+        <h2 id="xano-db-h">6) Xano — Database Schema (ALL Tables)</h2>
+        <p>
+          There are 24 tables referenced overall. Only fields explicitly shown
+          in the source are included below. Where a table is implied by
+          endpoints but no schema is shown, it is listed under “Also mentioned.”
+        </p>
+
+        <details class="schema">
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span><b>chatbot_configuration</b>
+              <span class="pill">(TYPE not specified)</span></span
+            >
+          </summary>
+          <table
+            class="table mono"
+            role="table"
+            aria-label="chatbot_configuration schema"
+          >
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Type / Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>id</td>
+                <td>integer</td>
+              </tr>
+              <tr>
+                <td>created_at</td>
+                <td>number</td>
+              </tr>
+              <tr>
+                <td>global_prompt</td>
+                <td>string</td>
+              </tr>
+              <tr>
+                <td>dynamic_fields</td>
+                <td>array</td>
+              </tr>
+              <tr>
+                <td>use_full_context</td>
+                <td>boolean</td>
+              </tr>
+            </tbody>
+          </table>
+        </details>
+
+        <details class="schema">
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span><b>messages</b>
+              <span class="pill">(TYPE not specified)</span></span
+            >
+          </summary>
+          <table class="table mono" role="table" aria-label="messages schema">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Type / Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>id</td>
+                <td>string (response)</td>
+              </tr>
+              <tr>
+                <td>created_at</td>
+                <td>number (response)</td>
+              </tr>
+              <tr>
+                <td>conversation_id</td>
+                <td>string (request/param)</td>
+              </tr>
+              <tr>
+                <td>role</td>
+                <td>enum (request)</td>
+              </tr>
+              <tr>
+                <td>deleted_at</td>
+                <td>number (request)</td>
+              </tr>
+              <tr>
+                <td>content</td>
+                <td>object (request)</td>
+              </tr>
+            </tbody>
+          </table>
+        </details>
+
+        <details class="schema">
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span><b>subscription</b>
+              <span class="pill">(TYPE not specified)</span></span
+            >
+          </summary>
+          <table
+            class="table mono"
+            role="table"
+            aria-label="subscription schema"
+          >
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Type / Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>id</td>
+                <td>string</td>
+              </tr>
+              <tr>
+                <td>clinic_id</td>
+                <td>string</td>
+              </tr>
+              <tr>
+                <td>stripe_customer_id</td>
+                <td>string</td>
+              </tr>
+              <tr>
+                <td>stripe_subscription_id</td>
+                <td>string</td>
+              </tr>
+              <tr>
+                <td>subscription_status</td>
+                <td>enum (e.g., expired|active|pastdue|canceled|…)</td>
+              </tr>
+              <tr>
+                <td>trial_end_date</td>
+                <td>number</td>
+              </tr>
+              <tr>
+                <td>…</td>
+                <td>other fields not specified</td>
+              </tr>
+            </tbody>
+          </table>
+        </details>
+
+        <details class="schema">
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span><b>instructions</b>
+              <span class="pill">(TYPE not specified)</span></span
+            >
+          </summary>
+          <table
+            class="table mono"
+            role="table"
+            aria-label="instructions schema"
+          >
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Type / Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>name</td>
+                <td>string</td>
+              </tr>
+              <tr>
+                <td>type</td>
+                <td>string</td>
+              </tr>
+              <tr>
+                <td>startday / startDay</td>
+                <td>number (naming differs by client)</td>
+              </tr>
+              <tr>
+                <td>noofdays / noOfDays</td>
+                <td>number (naming differs by client)</td>
+              </tr>
+              <tr>
+                <td>description / InstructionDescription</td>
+                <td>text/object (client model)</td>
+              </tr>
+              <tr>
+                <td>emoji</td>
+                <td>string</td>
+              </tr>
+              <tr>
+                <td>isenabled / status</td>
+                <td>boolean / enum (visibility)</td>
+              </tr>
+              <tr>
+                <td>InstructionMetadata</td>
+                <td>object (client model)</td>
+              </tr>
+              <tr>
+                <td>isPostOp</td>
+                <td>bool (client model)</td>
+              </tr>
+            </tbody>
+          </table>
+        </details>
+
+        <details class="schema">
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span><b>guides</b>
+              <span class="pill">(TYPE not specified)</span></span
+            >
+          </summary>
+          <table class="table mono" role="table" aria-label="guides schema">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Type / Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>title</td>
+                <td>string (client model)</td>
+              </tr>
+              <tr>
+                <td>thumbnail_url</td>
+                <td>string (client model)</td>
+              </tr>
+              <tr>
+                <td>blocks</td>
+                <td>array (client model)</td>
+              </tr>
+              <tr>
+                <td>category</td>
+                <td>present via endpoint query; details not specified</td>
+              </tr>
+            </tbody>
+          </table>
+        </details>
+
+        <details class="schema">
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span><b>users</b>
+              <span class="pill">(TYPE not specified)</span></span
+            >
+          </summary>
+          <table class="table mono" role="table" aria-label="users schema">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Type / Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>…</td>
+                <td>
+                  Fields not specified; endpoint used for token decode and
+                  payload fetch
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </details>
+
+        <details class="schema">
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span><b>users_onboarding</b>
+              <span class="pill">(TYPE not specified)</span></span
+            >
+          </summary>
+          <table
+            class="table mono"
+            role="table"
+            aria-label="users_onboarding schema"
+          >
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Type / Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>…</td>
+                <td>
+                  Fields not specified; updated via PUT
+                  <span class="mono">/users_onboarding/{userId}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </details>
+
+        <details class="schema">
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span><b>patients</b>
+              <span class="pill">(TYPE not specified)</span></span
+            >
+          </summary>
+          <table class="table mono" role="table" aria-label="patients schema">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Type / Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>…</td>
+                <td>
+                  Array returned by GET
+                  <span class="mono">/patients/{clinic_id}</span>; shape not
+                  specified
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </details>
+
+        <details class="schema">
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span><b>clinic</b>
+              <span class="pill">(TYPE not specified)</span></span
+            >
+          </summary>
+          <table class="table mono" role="table" aria-label="clinic schema">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Type / Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>…</td>
+                <td>Base clinic fields not specified</td>
+              </tr>
+            </tbody>
+          </table>
+        </details>
+
+        <details class="schema">
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span><b>clinic_members</b>
+              <span class="pill">(TYPE not specified)</span></span
+            >
+          </summary>
+          <table
+            class="table mono"
+            role="table"
+            aria-label="clinic_members schema"
+          >
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Type / Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>…</td>
+                <td>
+                  Returned as array via GET
+                  <span class="mono">/clinic/{clinic_id}/members</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </details>
+
+        <details class="schema">
+          <summary>
+            <span class="summary-row"
+              ><span class="chev"></span><b>invitations</b>
+              <span class="pill">(TYPE not specified)</span></span
+            >
+          </summary>
+          <table
+            class="table mono"
+            role="table"
+            aria-label="invitations schema"
+          >
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Type / Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>invitation_link</td>
+                <td>string (response)</td>
+              </tr>
+              <tr>
+                <td>invitation_token</td>
+                <td>string (verified via POST /verify-invitation-token)</td>
+              </tr>
+              <tr>
+                <td>…</td>
+                <td>Additional fields not specified</td>
+              </tr>
+            </tbody>
+          </table>
+        </details>
+
+        <h3>Also mentioned (no inline schema in source)</h3>
+        <ul>
+          <li>Doctors (create/get/update endpoints referenced)</li>
+          <li>Default instructions endpoint (returns instruction set)</li>
+          <li>
+            Stripe-related entities are consumed via Stripe API (not Xano
+            tables)
+          </li>
+        </ul>
+      </section>
+
+      <section
+        class="card"
+        id="troubleshooting"
+        aria-labelledby="troubleshooting-h"
+      >
+        <h2 id="troubleshooting-h">7) Troubleshooting Guide</h2>
+
+        <div class="callout warn">
+          <div class="label">401/403 when checking login or decoding token</div>
+          <ul>
+            <li>
+              Symptoms: App returns to Login; “response code not 200” or “User
+              not found”.
+            </li>
+            <li>
+              Check:
+              <span class="mono">lib/main.dart</span> (<i>checkLoginStatus</i>),
+              <span class="mono">lib/utils/login.dart</span>
+              (<i>decodeAccessToken</i>),
+              <span class="mono">lib/login/post_login_initializer.dart</span>
+              (<i>_decodeToken</i>).
+            </li>
+            <li>
+              Quick test: curl users endpoint with
+              <span class="mono">Authorization: Bearer</span> token; verify
+              Auth0 settings in <span class="mono">login_page.dart</span>.
+            </li>
+          </ul>
+        </div>
+
+        <div class="callout danger">
+          <div class="label">SSE stream doesn't return assistant text</div>
+          <ul>
+            <li>Symptoms: “Thinking” indefinitely or retry dialog.</li>
+            <li>
+              Check:
+              <span class="mono">chatbot/typewriter_text.dart</span>
+              (<i>subscribeToSSE</i>),
+              <span class="mono">utils/chatbot.dart</span>
+              (<i>createMessagesForAssistant</i>).
+            </li>
+            <li>
+              Quick test: <span class="mono">curl -N -X POST /stream</span> with
+              payload; inspect event data logs.
+            </li>
+          </ul>
+        </div>
+
+        <div class="callout warn">
+          <div class="label">User messages not persisting</div>
+          <ul>
+            <li>Symptoms: History missing after restart.</li>
+            <li>
+              Check:
+              <span class="mono">utils/chatbot.dart</span>
+              (<i>persistMessage</i>),
+              <span class="mono">chatbot/_loadHistory</span>,
+              <span class="mono">chatbot/send_message.dart</span>.
+            </li>
+            <li>
+              Quick test: curl GET
+              <span class="mono">/messages/{conversationId}</span>; optionally
+              POST user message to test persistence.
+            </li>
+          </ul>
+        </div>
+
+        <div class="callout info">
+          <div class="label">
+            Invitation token not applied after AppsFlyer deep link
+          </div>
+          <ul>
+            <li>
+              Check:
+              <span class="mono">apps_flyer/init.dart</span>
+              (<i>_handleAttribution</i>, <i>_sendToServer</i>),
+              <span class="mono">login/post_login_initializer.dart</span>
+              (<i>checkAndVerifyInvitationToken</i>).
+            </li>
+            <li>
+              Quick test: Simulate
+              <span class="mono">_handleAttribution</span> writing
+              <span class="mono">invitation_token</span>; verify read before
+              verification.
+            </li>
+          </ul>
+        </div>
+
+        <div class="callout info">
+          <div class="label">OneSignal notifications not registering</div>
+          <ul>
+            <li>
+              Check: <span class="mono">main.dart</span> (initialize),
+              <span class="mono"
+                >notifications/onesignal_permission_observer.dart</span
+              >,
+              <span class="mono">post_login_initializer.dart</span>
+              (<i>OneSignal.login</i>),
+              <span class="mono">settings_page.dart</span> toggles.
+            </li>
+            <li>
+              Quick test: Add logs after initialize and inside permission
+              observer.
+            </li>
+          </ul>
+        </div>
+
+        <div class="callout danger">
+          <div class="label">Null exceptions parsing JSON</div>
+          <ul>
+            <li>
+              Check factories:
+              <span class="mono">types/chatbot/message.dart</span>,
+              <span class="mono">types/chatbot/message_content.dart</span>,
+              <span class="mono">types/guide/guide.dart</span>, and service
+              parsers.
+            </li>
+            <li>Quick test: Log full responses before parsing.</li>
+          </ul>
+        </div>
+
+        <div class="callout warn">
+          <div class="label">Images fail to display or cache misses</div>
+          <ul>
+            <li>
+              Check:
+              <span class="mono">cache_managers/image_cache_manager.dart</span>,
+              usages of <span class="mono">CachedNetworkImage</span>.
+            </li>
+            <li>Quick test: Open raw URL; try default cache manager.</li>
+          </ul>
+        </div>
+
+        <div class="callout info">
+          <div class="label">Speech recognition/recorder permissions</div>
+          <ul>
+            <li>
+              Check:
+              <span class="mono">chatbot/send_message.dart</span>
+              (<i>_speechToText.initialize</i>, recorder permissions),
+              <span class="mono">voice_input/test_audio_waveform.dart</span>.
+            </li>
+            <li>
+              Quick test: Validate Android
+              <span class="mono">RECORD_AUDIO</span>; log init return values.
+            </li>
+          </ul>
+        </div>
+
+        <div class="callout info">
+          <div class="label">Chatbot global prompt fallback</div>
+          <ul>
+            <li>
+              Check: <span class="mono">chatbot/configureChatbot</span> →
+              <span class="mono">utils/chatbot.fetchChatbotConfiguration</span>
+              → provider update.
+            </li>
+            <li>
+              Quick test: curl <span class="mono">/chatbot-configuration</span>;
+              log JSON fields.
+            </li>
+          </ul>
+        </div>
+
+        <div class="callout danger">
+          <div class="label">
+            iOS startup crash due to OneSignal entitlements
+          </div>
+          <ul>
+            <li>
+              Check: App Group in
+              <span class="mono"
+                >ios/OneSignalNotificationServiceExtension/*.entitlements</span
+              >
+              vs Runner entitlements.
+            </li>
+            <li>
+              Quick test: Verify identical group and provisioning in Xcode.
+            </li>
+          </ul>
+        </div>
+
+        <div class="callout info">
+          <div class="label">YouTube player not rendering</div>
+          <ul>
+            <li>
+              Check: <span class="mono">guide/guide_view.dart</span> uses iframe
+              package with <i>convertUrlToId</i>;
+              <span class="mono">video_players/youtube_video_player.dart</span>
+              uses different API.
+            </li>
+            <li>Quick test: print extracted videoId and try a known URL.</li>
+          </ul>
+        </div>
+
+        <div class="callout warn">
+          <div class="label">Assets not found / Lottie load failure</div>
+          <ul>
+            <li>
+              Check: <span class="mono">pubspec.yaml</span> assets section
+              (e.g., <span class="mono">assets/lottie/loader_loop.json</span>),
+              run <span class="mono">flutter pub get</span>.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <footer class="card" style="margin-top: 16px">
+        <div class="kpi">
+          <div class="k">
+            <span class="v">Counts</span
+            ><span class="pill">bubblesections=289</span
+            ><span class="pill">xanoapiendpoints=43</span
+            ><span class="pill">xanofunctions=42</span
+            ><span class="pill">xanotasks=5</span
+            ><span class="pill">xanotables=24</span
+            ><span class="pill">flutter_files=132</span>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script>
+      // Toggle all DB schema <details>
+      (function () {
+        const btn = document.getElementById('toggleSchemas');
+        const details = () =>
+          Array.from(document.querySelectorAll('#xano-db details.schema'));
+        let openAll = true;
+        btn?.addEventListener('click', () => {
+          details().forEach((d) => (d.open = openAll));
+          openAll = !openAll;
+        });
+      })();
+    </script>
+  </body>
+</html>
